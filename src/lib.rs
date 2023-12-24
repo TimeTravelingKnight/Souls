@@ -252,7 +252,7 @@ for addr in ptrs_setfaceadd.unwrap().iter() {
 
 }
 let ptrs_setPALadd =memsearch::find_n_in (
-"e8 86 f4 77 ff 48 8b 43 08 48 8d 4f 08 8b 90 00 ec 02 00 89 16 ba 20 00 00 00 e8 4c ae 77 ff 48 8b cf c7 47 38 3e 04 00 00 e8 5d 5b c4 ff 3d 3e 04 00 00 75 23 49 8b d5 48 8b cf e8 db f8 77 ff 48 8b c8 48 8d 57 1c e8 cf f8 77 ff 48 8b c8 48 8d 57 3c e8 c3 f8 77 ff 8b 47 3c 48 8b 5c 24 58 48 8b 6c 24 60 48 8b 74 24 68 48 83 c4 20 41 5f 41",
+"48 8b 43 08 8b 90 fc eb 02 00 89 16 e8 86 f4 77 ff 48 8b 43 08 48 8d 4f 08 8b 90 00 ec 02 00 89 16 ba 20 00 00 00 e8 4c ae 77 ff 48 8b cf c7 47 38 3e 04",
 text_address,
 text_size,
 1
@@ -264,28 +264,11 @@ if ptrs_setPALadd.is_err() || ptrs_setPALadd.as_ref().unwrap().len() != 1{
 
 for addr in ptrs_setPALadd.unwrap().iter() {
     //println!("Hooking Version @ {addr:#X}");
-  hook_direct2(*addr,on_hook7,*addr);
+  hook_direct(*addr,on_hook7,*addr);
 
 
 }
-let ptrs_setPALpow=memsearch::find_n_in (
-"e8 5d 5b c4 ff 3d 3e 04 00 00 75 23 49 8b d5 48 8b cf e8 db f8 77 ff 48 8b c8 48 8d 57 1c e8 cf f8 77 ff 48 8b c8 48 8d 57 3c e8 c3 f8 77 ff 8b 47 3c 48 8b 5c 24 58 48 8b 6c 24 60 48 8b 74 24 68 48 83 c4 20 41 5f 41 5e 41 5d 41 5c 5f c3 cc cc cc 48 89 5c 24 18 48 89 6c 24 20 56 57 41 54 41 55 41 56 48 83 ec 70 48 8b d9 0f 29",
-text_address,
-text_size,
-1
 
-
-);
-if ptrs_setPALpow.is_err() || ptrs_setPALpow.as_ref().unwrap().len() != 1{
-    panic!("CANNOT FIND FACE");
-}
-
-for addr in ptrs_setPALpow.unwrap().iter() {
-   // println!("Hooking Version @ {addr:#X}");
-  hook_direct2(*addr,on_hook8,*addr);
-
-
-}
 let ptrs_rsKokocalc=memsearch::find_n_in (
 "48 8b cb e8 e8 88 93 ff 8b d5 48 8b cb e8 7e 89 93 ff eb a6 cc cc cc cc cc cc cc cc cc cc cc cc 40 53 48 83 ec 20 48 8b d9 48 8d 0d d9 a7 68 0a e8 c3 1b ad 02 83 43 34 fc 4c 8d 4b 38 44 8b 43 34 48 8b 53 48 c7 43",
 text_address,
@@ -342,7 +325,7 @@ for addr in ptrs_rsfaceaddafter.unwrap().iter() {
 }
 
 let ptrs_rspaladdbefore=memsearch::find_n_in (
-    "e8 96 49 cd ff 48 8b 43 08 48 8d 4f 08 8b 90 00 ec 02 00 89 16 ba 20 00 00 00 e8 5c 03 cd ff 48",
+    "48 8b 43 08 8b 90 fc eb 02 00 89 16 e8 96 49 cd ff 48 8b 43 08 48 8d 4f 08 8b 90 00 ec 02 00 89 16 ba 20 00 00 00 e8 5c 03 cd ff 48 8b cf c7 47 38 3e 04 00 00 e8 6d b0 19 00 3d 3e 04 00 00 75 23",
     text_address,
     text_size,
     1
@@ -354,28 +337,12 @@ let ptrs_rspaladdbefore=memsearch::find_n_in (
    
    for addr in ptrs_rspaladdbefore.unwrap().iter() {
   //     println!("Hooking Version @ {addr:#X}");
-     hook_direct2(*addr,on_hook11,*addr);
+     hook_direct(*addr,on_hook11,*addr);
    
    
    }
 
-   let ptrs_rspaladdafter=memsearch::find_n_in (
-    "e8 6d b0 19 00 3d 3e 04 00 00 75 23 49 8b d5 48 8b cf e8 eb 4d cd ff 48 8b c8 48 8d 57 1c e8 df 4d cd ff 48 8b c8 48 8d 57",
-    text_address,
-    text_size,
-    1
-   );
-   
-   if ptrs_rspaladdafter.is_err() || ptrs_rspaladdafter.as_ref().unwrap().len() != 1{
-       panic!("CANNOT FIND FACE");
-   }
-   
-   for addr in ptrs_rspaladdafter.unwrap().iter() {
-//       println!("Hooking Version @ {addr:#X}");
-     hook_direct2(*addr,on_hook12,*addr);
-   
-   
-   }
+
 
     
 
@@ -405,8 +372,8 @@ unsafe extern "win64" fn on_hook(
     let pvpornot = gba.read_u8(battlesettings+0xF);
   
    if pvpornot<0x46 {
-   let bytes: [u32; 12] = [0x17,0x18,0x19,0x1A,0x1B,0x1C,0x1D,0x1E,0x1F,0x20,0x21,0x22];
-
+  let bytes: [u32; 12] = [0x17,0x18,0x19,0x1A,0x1B,0x1C,0x1D,0x1E,0x1F,0x20,0x21,0x22];
+ //let bytes: [u32; 12] = [0x22,0x22,0x22,0x22,0x22,0x22,0x22,0x22,0x22,0x22,0x22,0x22];
    gba.r0=bytes[gba.r3 as usize];
    }
 }
@@ -482,6 +449,8 @@ if currSoul>0 && currSoul<7 {
 else {
     total=gba.r0+gba.r1;
 }
+
+
     
 }
 unsafe extern "win64" fn on_hook6(
@@ -499,31 +468,31 @@ gba.r0=total;
 
 unsafe extern "win64" fn on_hook7(
     reg: *mut ilhook::x64::Registers,
-    _return_addr: usize
-
-) {
+    _return_addr: usize,
+    from_addr: usize,
+) -> usize 
+ {
    
     let gba = unsafe { GBAState::from_addr((*reg).rdi) };
 
+
+    
+    let bluefacepal = gba.read_u32(0x2ebfc);
+  
+//1408aa9ca-1408aa9b9  ca-b9
 if currSoul>0 && currSoul<7 {
     total2=FACEPALLOC+gba.r0;
-
 }
-
-    
+else {
+    total2=gba.r0+bluefacepal;
 }
-unsafe extern "win64" fn on_hook8(
-    reg: *mut ilhook::x64::Registers,
-    _return_addr: usize
-
-) {
-   
-    let gba = unsafe { GBAState::from_addr((*reg).rdi) };
-if currSoul>0 && currSoul<7  {
 gba.r0=total2;
-}
+
+from_addr + 0x11
+
     
 }
+
 
 unsafe extern "win64" fn on_hook9(
     reg: *mut ilhook::x64::Registers,
@@ -560,30 +529,28 @@ else {
 
 unsafe extern "win64" fn on_hook11(
     reg: *mut ilhook::x64::Registers,
-    _return_addr: usize
+    _return_addr: usize,
 
-) {
+    from_addr: usize,
+) -> usize  {
    
     let gba = unsafe { GBAState::from_addr((*reg).rdi) };
 
+
+    //1403554ba- 1403554a9=ba-a9 
+    let redfacepal = gba.read_u32(0x2ebfc);
 if currSoul>6 {
     total2=FACEPALLOC+gba.r0;
 
 }
-
-    
+else {
+    total2=gba.r0+redfacepal;
 }
-
-unsafe extern "win64" fn on_hook12(
-    reg: *mut ilhook::x64::Registers,
-    _return_addr: usize
-
-) {
-   
-    let gba = unsafe { GBAState::from_addr((*reg).rdi) };
-if currSoul>6  {
 gba.r0=total2;
-}
+
+from_addr + 0x11
+
+
     
 }
 
